@@ -16,6 +16,10 @@ export class AppComponent implements OnInit {
     'Pineapple express'
   ];
 
+  filteredMovies: string[] = [];
+
+  searchValue: string = '';
+
   flag: boolean = true;
 
   constructor() {
@@ -23,14 +27,25 @@ export class AppComponent implements OnInit {
       this.name = 'Juan';
       this.movies.push('Los 3 Garcia');
     },2000);
+
+    this.filteredMovies = this.movies;
   }
 
-  doOnClick() {
+  ngOnInit(): void { }
+
+  doOnClick(e:any) {
     console.log('me hicieron click!');
-    this.flag = !this.flag;
+    e.preventDefault();
+    
+    // this.flag = !this.flag;
+    this.movies.push(this.searchValue);
+    this.searchValue = '';
   }
 
-  ngOnInit(): void {
-    
+  doSearch() {
+    const searchValue = this.searchValue.toLowerCase();
+    this.filteredMovies = this.movies.filter(item => {
+      return item.toLowerCase().includes(searchValue);
+    });
   }
 }

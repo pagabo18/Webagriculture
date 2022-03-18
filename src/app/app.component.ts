@@ -22,6 +22,8 @@ export class AppComponent implements OnInit {
 
   flag: boolean = true;
 
+  searchTimeOut: any;
+
   constructor() {
     setTimeout(() => {
       this.name = 'Juan';
@@ -43,9 +45,16 @@ export class AppComponent implements OnInit {
   }
 
   doSearch() {
-    const searchValue = this.searchValue.toLowerCase();
-    this.filteredMovies = this.movies.filter(item => {
-      return item.toLowerCase().includes(searchValue);
-    });
+    if(this.searchTimeOut) {
+      clearTimeout(this.searchTimeOut);
+    }
+
+    this.searchTimeOut = setTimeout(() => {
+      const searchValue = this.searchValue.toLowerCase();
+      console.log('Se hace la busqueda');
+      this.filteredMovies = this.movies.filter(item => {
+        return item.toLowerCase().includes(searchValue);
+      });
+    }, 200);
   }
 }

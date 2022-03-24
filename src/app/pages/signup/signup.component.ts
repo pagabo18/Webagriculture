@@ -14,8 +14,13 @@ export class SignupComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) {
     this.form = this.formBuilder.group({
-      'name': ['', Validators.required],
-      'username': ['', Validators.required]
+      name: ['', Validators.required],
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      confirm: ['', [Validators.required, Validators.minLength(8)]]
+    }, {
+      validators: this.matchPasswords.bind(this)
     });
   }
 
@@ -24,6 +29,25 @@ export class SignupComponent implements OnInit {
 
   toggleShowPassword(): void {
     this.showPassword = !this.showPassword;
+  }
+
+  sendData() {
+    if(this.form.valid) {
+      const { password, confirm } = this.form.getRawValue();
+      console.log('Enviar datos', password, confirm);
+    } else {
+      console.log('Error, faltan datos', this.form);
+    }
+  }
+
+  matchPasswords() {
+    if(!this.form) return;
+    const { password, confirm } = this.form.getRawValue();
+    if(password === confirm) {
+      return null;
+    } else {
+      return { passwordMismatch: true }
+    }
   }
 
 }

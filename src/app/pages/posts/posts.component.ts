@@ -15,7 +15,6 @@ export class PostsComponent implements OnInit {
   userId: string = '';
 
   constructor(private activatedRoute: ActivatedRoute) {
-
   }
 
   ngOnInit(): void {

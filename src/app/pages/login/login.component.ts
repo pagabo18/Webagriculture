@@ -7,29 +7,31 @@ import { LoginService } from 'src/app/shared/services/login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit {
-
-  credentials: any = {}; 
+  showLogin: boolean = false;
+  credentials: any = {};
 
   constructor(
-    private loginService: LoginService, 
-    private authService: AuthService, 
+    private authService: AuthService,
+    private loginService: LoginService,
     private router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   login() {
-    console.log('Enviar datos', this.credentials);
-    this.loginService.login(this.credentials).then(response => {
-      this.authService.save(response.token);
-      this.router.navigate(['/users']);
-    }).catch(e => {
-      console.log('datos incorrectos');
-    });
+    this.loginService.login(this.credentials).subscribe(
+      response => {
+        this.router.navigate(['/start']);
+        this.authService.save(response['token']);
+      },
+      error => {
+        if (error['status'] != 401) this.showLogin = false;
+        else this.showLogin = true;
+      }
+    );
+    console.log('datos', this.credentials);
   }
-
 }

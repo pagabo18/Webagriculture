@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Post } from 'src/app/shared/interfaces/post';
+import { PostService } from 'src/app/shared/services/post.service';
 
 interface PostsParams {
   user: string;
@@ -13,9 +15,10 @@ interface PostsParams {
 export class PostsComponent implements OnInit {
 
   userId: string = '';
+  post: Post[]=[];
 
-  constructor(private activatedRoute: ActivatedRoute) {
-  }
+  constructor(private activatedRoute: ActivatedRoute, private postService: PostService) { }
+
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -26,7 +29,10 @@ export class PostsComponent implements OnInit {
   }
 
   getPosts() {
-    
+    this.postService.getPosts().subscribe(response => {
+      console.log('Response:', response);
+      this.post = response.filter((post: { userId: string; }) => post.userId == this.userId);
+    });
   }
 
 }

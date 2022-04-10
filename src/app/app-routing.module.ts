@@ -7,9 +7,11 @@ import { PostsComponent } from './pages/posts/posts.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { UsersComponent } from './pages/users/users.component';
 import { AuthGuard } from './shared/guards/auth.guard';
+import { StartComponent } from './pages/start/start.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {path: 'start', component: StartComponent},
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuard] },

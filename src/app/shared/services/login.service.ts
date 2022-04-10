@@ -1,19 +1,18 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
 
-  constructor() { }
+  constructor(private httpClient: HttpClient) { }
 
-  login(credentials: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve({
-          token: '12345678987654346786765435'
-        });
-      }, 1000);
-    });
-  }
+    login(credentials: Object): Observable<any>{
+      const Url = "http://localhost:3000/api/users/login"
+      console.log(credentials);
+      return this.httpClient.put(Url,credentials);
+    }
+  
 }
